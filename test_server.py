@@ -1,6 +1,6 @@
 from comqueue.server import Server
 import logging
-
+logging.basicConfig(level=logging.INFO)
 
 class TestServer(Server):
     def greet(self, data):
