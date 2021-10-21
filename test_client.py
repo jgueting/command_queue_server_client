@@ -7,6 +7,9 @@ if __name__ == '__main__':
 
     client = Client(os.path.join(os.getcwd(), 'comqueue', 'config.json'))
 
-    while True:
-        client.send('greet', ['hallo'])
-        sleep(1)
+    try:
+        while True:
+            client.send('greet', ['hallo'])
+            sleep(1)
+    except KeyboardInterrupt:
+        client.send('shutdown', [])
