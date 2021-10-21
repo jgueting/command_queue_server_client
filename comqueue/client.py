@@ -1,17 +1,17 @@
 from multiprocessing.managers import BaseManager
-import json, os
+import json
 
 
 class Client:
     class CommandManager(BaseManager): pass
     class ErrorManager(BaseManager): pass
 
-    def __init__(self):
+    def __init__(self, configfilename):
         self.name = self.__class__.__name__
         ### initialize remote command system
 
         # load config
-        with open(os.path.join(os.getcwd(), 'config.json'), 'r') as configfile:
+        with open(configfilename, 'r') as configfile:
             self.config = json.load(configfile)['control']
 
         # initialize command transmitter queue
@@ -33,3 +33,8 @@ class Client:
         self.err_qm.connect()
         self.err_queue = self.err_qm.get_queue()
 
+    # use this method to send a command
+    # command: the servers command-methods name as string
+    # data: list of corresponding data
+    def send(self, command, data):
+        self.com_queue.put((command, data))

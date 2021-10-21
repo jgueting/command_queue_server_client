@@ -4,7 +4,6 @@ from time import time, sleep
 import logging
 logging.basicConfig(format='%(asctime)s %(message)s', filename='led_server.log', filemode='w', level=logging.DEBUG)
 import json
-import os
 
 
 class Server:
@@ -14,13 +13,13 @@ class Server:
     class ErrorManager(BaseManager):
         pass
 
-    def __init__(self):
+    def __init__(self, configfilename):
         self.name = self.__class__.__name__
         logging.info(f'*** {self.name} ***')
 
         try:
             # load config ###########################
-            with open(os.path.join(os.getcwd(), 'config.json'), 'r') as configfile:
+            with open(configfilename, 'r') as configfile:
                 self.config = json.load(configfile)['control']
 
             # initialize remote command system ######
@@ -40,7 +39,7 @@ class Server:
             self.err_qm.start()
 
             # init timing ###########################
-            self.loop_time = self.config['time step']
+            self.loop_time = self.config['loop time']
             self.calc_time_avg = 0.
             self.calc_time_max = 0.
 
@@ -90,8 +89,8 @@ class Server:
                     self.calc_time_max = max(time_list)
                     sleep(wait_time)
                 except Exception:
-                    out = f'{self.name}: loop time warning: exceeded by {(self.loop_time - wait_time) * 1000:5.3f}ms ' \
-                          f'(looptime: {self.loop_time * 1000:5.3f}ms)'
+                    out = f'{self.name}: loop time warning: {(self.loop_time - wait_time) * 1000:5.3f}ms > ' \
+                          f'{self.loop_time * 1000:5.3f}ms)'
                     logging.warning(out)
                     starttime = now
                     inc = 0
@@ -100,6 +99,7 @@ class Server:
     def work(self):
         pass
 
+    # shutdown command method (create other commands in the same pattern!)
     def shutdown(self, data):
         message = f'{self.name}: shutting down ...'
         logging.info(message)
