@@ -2,7 +2,7 @@ from multiprocessing import Queue
 from multiprocessing.managers import BaseManager
 from time import time, sleep
 import logging
-logging.basicConfig(format='%(asctime)s %(message)s', filename='led_server.log', filemode='w', level=logging.DEBUG)
+# logging.basicConfig(format='%(asctime)s %(message)s', filename='led_server.log', filemode='w', level=logging.DEBUG)
 import json
 
 
