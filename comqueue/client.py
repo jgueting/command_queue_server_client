@@ -24,9 +24,9 @@ class Client:
         self.err_qm = Client.ErrorManager(address=(self.config['error queue']['address'][0], self.config['error queue']['port']),
                                           authkey=self.config['error queue']['authkey'].encode('ascii'))
 
-        self._connect()
+        self.connect()
 
-    def _connect(self, *args):
+    def connect(self, *args):
         self.com_qm.connect()
         self.com_queue = self.com_qm.get_queue()
 
