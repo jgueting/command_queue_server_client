@@ -9,7 +9,7 @@ if __name__ == '__main__':
 
     try:
         while True:
-            client.send('greet', ['hallo from 1'])
-            sleep(1)
+            client.send('greet', ['hallo from 2'])
+            sleep(1.01)
     except KeyboardInterrupt:
         client.send('shutdown', [])
